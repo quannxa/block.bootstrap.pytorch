@@ -92,7 +92,7 @@ class Block(nn.Module):
             m = m.view(bsize, self.rank, -1)
             z = torch.sum(m, 1)
             if self.pos_norm == 'before_cat':
-                z = torch.sqrt(F.relu(z)) - torch.sqrt(F.relu(-z))
+                z = torch.sqrt(F.relu(z)+1e-8) - torch.sqrt(F.relu(-z)+1e-8)
                 z = F.normalize(z,p=2)
             zs.append(z)
         z = torch.cat(zs,1)
